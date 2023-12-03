@@ -20,8 +20,8 @@ namespace CStell
 		CStellApplication(const CStellApplication&) = delete;
 		CStellApplication& operator=(const CStellApplication&) = delete;
 
-		int m_Width = 1280;
-		int m_Height = 720;
+		int m_Width = 640;
+		int m_Height = 640;
 
 		void Run();
 

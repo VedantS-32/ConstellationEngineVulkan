@@ -404,3 +404,6 @@ FodyWeavers.xsd
 #Binary Files
 bin/
 bin-int/
+
+#Solution File
+*.sln
