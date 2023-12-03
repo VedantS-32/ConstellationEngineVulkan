@@ -1,0 +1,6 @@
+[submodule "ConstellationEngineCore/vendor/glfw"]
+	path = ConstellationEngineCore/vendor/glfw
+	url = https://github.com/VedantS-32/glfw.git
+[submodule "ConstellationEngineCore/vendor/glm"]
+	path = ConstellationEngineCore/vendor/glm
+	url = https://github.com/g-truc/glm.git

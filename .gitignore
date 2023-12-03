@@ -100,7 +100,11 @@ StyleCopReport.xml
 
 # Chutzpah Test files
 _Chutzpah*
-
+Building configurations...
+Running action 'vs2022'...
+Generated ConstellationEngineCore/ConstellationEngineCore.vcxproj...
+Generated ConstellationEngineCore/ConstellationEngineCore.vcxproj.filters...
+Done (129ms).
 # Visual C++ cache files
 ipch/
 *.aps
@@ -396,3 +400,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+#Binary Files
+bin/
+bin-int/
