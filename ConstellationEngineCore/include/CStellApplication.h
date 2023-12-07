@@ -5,7 +5,7 @@
 #include "CStellShaderPipeline.h"
 #include "CStellDevice.h"
 #include "CStellSwapChain.h"
-#include "CStellModel.h"
+#include "CStellGameObject.h"
 
 #include <memory>
 #include <vector>
@@ -21,13 +21,13 @@ namespace CStell
 		CStellApplication(const CStellApplication&) = delete;
 		CStellApplication& operator=(const CStellApplication&) = delete;
 
-		int m_Width = 640;
-		int m_Height = 640;
+		int m_Width = 800;
+		int m_Height = 600;
 
 		void Run();
 
 	private:
-		void LoadModels();
+		void LoadGameObjects();
 		void CreatePipelineLayout();
 		void CreatePipeline();
 		void CreateCommandBuffer();
@@ -35,11 +35,12 @@ namespace CStell
 		void DrawFrame();
 		void RecreateSwapChain();
 		void RecordCommandBuffer(int imageIndex);
+		void RenderGameObjects(VkCommandBuffer commandBuffer);
 
 		CStellWindow m_CStellWindow;
 		CStellDevice m_CStellDevice;
 		std::unique_ptr<CStellSwapChain> m_CStellSwapChain;
-		std::unique_ptr<CStellModel> m_CStellModel;
+		std::vector<CStellGameObject> m_GameObjects;
 		std::unique_ptr<CStellShaderPipeline> m_CStellShaderPipeline;
 		VkPipelineLayout m_PipelineLayout;
 		std::vector<VkCommandBuffer> m_CommandBuffers;

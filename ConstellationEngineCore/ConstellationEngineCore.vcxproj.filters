@@ -15,6 +15,9 @@
     <ClInclude Include="include\CStellDevice.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CStellGameObject.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\CStellModel.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -36,6 +39,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\CStellDevice.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStellGameObject.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\CStellModel.cpp">

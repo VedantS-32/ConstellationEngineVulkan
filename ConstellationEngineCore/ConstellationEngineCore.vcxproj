@@ -97,6 +97,7 @@
   <ItemGroup>
     <ClInclude Include="include\CStellApplication.h" />
     <ClInclude Include="include\CStellDevice.h" />
+    <ClInclude Include="include\CStellGameObject.h" />
     <ClInclude Include="include\CStellModel.h" />
     <ClInclude Include="include\CStellShaderPipeline.h" />
     <ClInclude Include="include\CStellSwapChain.h" />
@@ -106,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="src\CStellApplication.cpp" />
     <ClCompile Include="src\CStellDevice.cpp" />
+    <ClCompile Include="src\CStellGameObject.cpp" />
     <ClCompile Include="src\CStellModel.cpp" />
     <ClCompile Include="src\CStellShaderPipeline.cpp" />
     <ClCompile Include="src\CStellSwapChain.cpp" />

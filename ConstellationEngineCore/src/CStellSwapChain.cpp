@@ -1,6 +1,5 @@
 #include "CStellSwapChain.h"
 
-
 #include <array>
 #include <cstdlib>
 #include <cstring>

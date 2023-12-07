@@ -78,6 +78,10 @@ project "ConstellationEngineCore"
 		-- "ImGuiFileDialog"
 	}
 	
+	-- filter { "system:windows" }
+   	-- 	prebuildcommands { 	"@echo",
+	-- 						"%{VULKAN_SDK}/Bin/glslc.exe $(SolutionDir)ConstellationEngineCore/shader/SimpleShader.vert -o $(SolutionDir)ConstellationEngineCore/shader/vert.spv",
+	-- 	   				   	"%{VULKAN_SDK}/Bin/glslc.exe $(SolutionDir)ConstellationEngineCore/shader/SimpleShader.frag -o $(SolutionDir)ConstellationEngineCore/shader/frag.spv"}
 	-- include "vendor/imgui/premake5.lua"
 	-- include "vendor/imgui-sfml/premake5.lua"
 	-- include "vendor/ImGuiFileDialog/premake5.lua"

@@ -26,7 +26,7 @@ namespace CStell
 
 	void CStellWindow::FrameBufferResizeCallback(GLFWwindow* window, int width, int height)
 	{
-		auto lCStellWindow = reinterpret_cast<CStellWindow *>(glfwGetWindowUserPointer(window));
+		auto lCStellWindow = reinterpret_cast<CStellWindow*>(glfwGetWindowUserPointer(window));
 		lCStellWindow->m_FrameBufferResized = true;
 		lCStellWindow->m_Width = width;
 		lCStellWindow->m_Height = height;
