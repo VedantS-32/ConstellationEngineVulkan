@@ -6,6 +6,7 @@
 #include <vulkan/vulkan.h>
 
 // std lib headers
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -16,10 +17,11 @@ class CStellSwapChain {
   static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
   CStellSwapChain(CStellDevice &deviceRef, VkExtent2D windowExtent);
+  CStellSwapChain(CStellDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<CStellSwapChain> previousSwapChain);
   ~CStellSwapChain();
 
   CStellSwapChain(const CStellSwapChain &) = delete;
-  void operator=(const CStellSwapChain &) = delete;
+  CStellSwapChain& operator=(const CStellSwapChain &) = delete;
 
   VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
   VkRenderPass getRenderPass() { return renderPass; }
@@ -39,6 +41,7 @@ class CStellSwapChain {
   VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
 
  private:
+  void Init();
   void createSwapChain();
   void createImageViews();
   void createDepthResources();
@@ -69,6 +72,7 @@ class CStellSwapChain {
   VkExtent2D windowExtent;
 
   VkSwapchainKHR swapChain;
+  std::shared_ptr<CStellSwapChain> m_OldSwapChain;
 
   std::vector<VkSemaphore> imageAvailableSemaphores;
   std::vector<VkSemaphore> renderFinishedSemaphores;

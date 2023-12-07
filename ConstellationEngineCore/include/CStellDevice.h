@@ -35,7 +35,7 @@ class CStellDevice {
 
   // Not copyable or movable
   CStellDevice(const CStellDevice &) = delete;
-  void operator=(const CStellDevice &) = delete;
+  CStellDevice& operator=(const CStellDevice &) = delete;
   CStellDevice(CStellDevice &&) = delete;
   CStellDevice &operator=(CStellDevice &&) = delete;
 

@@ -1,6 +1,6 @@
 #include "CStellSwapChain.h"
 
-// std
+
 #include <array>
 #include <cstdlib>
 #include <cstring>
@@ -11,15 +11,31 @@
 
 namespace CStell {
 
-CStellSwapChain::CStellSwapChain(CStellDevice &deviceRef, VkExtent2D extent)
-    : device{deviceRef}, windowExtent{extent} {
-  createSwapChain();
-  createImageViews();
-  createRenderPass();
-  createDepthResources();
-  createFramebuffers();
-  createSyncObjects();
+CStellSwapChain::CStellSwapChain(CStellDevice &deviceRef, VkExtent2D windowExtent)
+    : device{deviceRef}, windowExtent{windowExtent}
+{
+    Init();
 }
+
+CStellSwapChain::CStellSwapChain(CStellDevice& deviceRef, VkExtent2D windowExtent, std::shared_ptr<CStellSwapChain> previousSwapChain)
+    : device{ deviceRef }, windowExtent{ windowExtent }, m_OldSwapChain{previousSwapChain}
+{
+    Init();
+
+    // Clean up old swap chain since it's no longer needed
+    m_OldSwapChain = nullptr;
+}
+
+void CStellSwapChain::Init()
+{
+    createSwapChain();
+    createImageViews();
+    createRenderPass();
+    createDepthResources();
+    createFramebuffers();
+    createSyncObjects();
+}
+
 
 CStellSwapChain::~CStellSwapChain() {
   for (auto imageView : swapChainImageViews) {
@@ -162,7 +178,7 @@ void CStellSwapChain::createSwapChain() {
   createInfo.presentMode = presentMode;
   createInfo.clipped = VK_TRUE;
 
-  createInfo.oldSwapchain = VK_NULL_HANDLE;
+  createInfo.oldSwapchain = m_OldSwapChain == nullptr ? VK_NULL_HANDLE : m_OldSwapChain->swapChain;
 
   if (vkCreateSwapchainKHR(device.device(), &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
     throw std::runtime_error("failed to create swap chain!");
@@ -362,7 +378,7 @@ void CStellSwapChain::createSyncObjects() {
 VkSurfaceFormatKHR CStellSwapChain::chooseSwapSurfaceFormat(
     const std::vector<VkSurfaceFormatKHR> &availableFormats) {
   for (const auto &availableFormat : availableFormats) {
-    if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM &&
+    if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
         availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
       return availableFormat;
     }

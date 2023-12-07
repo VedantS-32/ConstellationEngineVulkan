@@ -83,7 +83,6 @@ project "ConstellationEngineCore"
 	-- include "vendor/ImGuiFileDialog/premake5.lua"
 	-- include "vendor/yaml-cpp/premake5.lua"
 
-
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"

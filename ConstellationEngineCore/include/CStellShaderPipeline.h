@@ -10,14 +10,15 @@ namespace CStell
 {
 	struct PipelineConfigInfo 
 	{
-		VkViewport m_Viewport;
-		VkRect2D m_Scissor;
+		VkPipelineViewportStateCreateInfo m_ViewportInfo;
 		VkPipelineInputAssemblyStateCreateInfo m_InputAssemblyInfo;
 		VkPipelineRasterizationStateCreateInfo m_RasterizationInfo;
 		VkPipelineMultisampleStateCreateInfo m_MultisampleInfo;
 		VkPipelineColorBlendAttachmentState m_ColorBlendAttachment;
 		VkPipelineColorBlendStateCreateInfo m_ColorBlendInfo;
 		VkPipelineDepthStencilStateCreateInfo m_DepthStencilInfo;
+		std::vector<VkDynamicState> m_DynamicStateEnables;
+		VkPipelineDynamicStateCreateInfo m_DynamicStateInfo; 
 		VkPipelineLayout m_PipelineLayout = nullptr;
 		VkRenderPass m_RenderPass = nullptr;
 		uint32_t m_Subpass = 0;
@@ -26,6 +27,7 @@ namespace CStell
 	class CStellShaderPipeline
 	{
 	public:
+		CStellShaderPipeline() = default;
 		CStellShaderPipeline(
 			CStellDevice& device,
 			const PipelineConfigInfo& configInfo,
@@ -35,10 +37,10 @@ namespace CStell
 		~CStellShaderPipeline();
 
 		CStellShaderPipeline(const CStellShaderPipeline&) = delete;
-		void operator=(const CStellShaderPipeline&) = delete;
+		CStellShaderPipeline& operator=(const CStellShaderPipeline&) = delete;
 
 		void bind(VkCommandBuffer commandBuffer);
-		static PipelineConfigInfo m_DefaultPipelineConfigInfo(uint32_t width, uint32_t height);
+		static void m_DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
 		
 	private:
 		static std::vector<char> ReadFile(const std::string& filePath);
