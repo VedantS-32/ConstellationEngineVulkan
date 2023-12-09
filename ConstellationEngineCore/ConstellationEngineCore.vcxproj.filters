@@ -33,6 +33,8 @@
     <ClInclude Include="include\Minimal.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CStellRenderer.h" />
+    <ClInclude Include="include\CStellRenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStellApplication.cpp">
@@ -59,5 +61,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStellRenderer.cpp" />
+    <ClCompile Include="src\CStellRenderSystem.cpp" />
   </ItemGroup>
 </Project>
