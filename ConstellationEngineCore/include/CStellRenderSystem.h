@@ -1,10 +1,9 @@
 #pragma once
 
 #include "Minimal.h"
-#include "CStellWindow.h"
+#include "CStellCamera.h"
 #include "CStellShaderPipeline.h"
 #include "CStellDevice.h"
-#include "CStellRenderer.h"
 #include "CStellGameObject.h"
 
 #include <memory>
@@ -21,7 +20,10 @@ namespace CStell
 		CStellRenderSystem(const CStellRenderSystem&) = delete;
 		CStellRenderSystem& operator=(const CStellRenderSystem&) = delete;
 
-		void RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<CStellGameObject> &gameObjects);
+		void RenderGameObjects(
+			VkCommandBuffer commandBuffer,
+			std::vector<CStellGameObject> &gameObjects,
+			const CStellCamera& camera);
 
 	private:
 		void CreatePipelineLayout();

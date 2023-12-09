@@ -21,6 +21,7 @@ namespace CStell
 		CStellRenderer& operator=(const CStellRenderer&) = delete;
 
 		VkRenderPass GetSwapChainRenderPass() const { return m_CStellSwapChain->getRenderPass(); }
+		float getAspectRatio() const { return m_CStellSwapChain->extentAspectRatio(); }
 		bool isFrameInProgress() const { return m_IsFrameStarted; }
 
 		VkCommandBuffer GetCurrentCommandBuffer() const

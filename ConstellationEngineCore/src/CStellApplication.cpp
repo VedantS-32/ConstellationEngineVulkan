@@ -1,4 +1,6 @@
 #include "CStellApplication.h"
+
+#include "CStellCamera.h"
 #include "CStellRenderSystem.h"
 
 #define GLM_FORCE_RADIANS
@@ -21,15 +23,20 @@ namespace CStell
 	void CStellApplication::Run()
 	{
 		CStellRenderSystem lCStellRenderSystem{ m_CStellDevice, m_CStellRenderer.GetSwapChainRenderPass() };
+		CStellCamera camera{};
 
 		while (!m_CStellWindow.ShouldClose())
-		{
+		{ 
 			glfwPollEvents();
+
+			float aspect = m_CStellRenderer.getAspectRatio();
+			//camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
+			camera.setPerspectiveProjection(glm::radians(50.0f), aspect, 0.01f, 10.0f);
 			
 			if (auto commandBuffer = m_CStellRenderer.BeginFrame())
 			{
 				m_CStellRenderer.BeginSwapChainRenderPass(commandBuffer);
-				lCStellRenderSystem.RenderGameObjects(commandBuffer, m_GameObjects);
+				lCStellRenderSystem.RenderGameObjects(commandBuffer, m_GameObjects, camera);
 				m_CStellRenderer.EndSwapChainRenderPass(commandBuffer);
 				m_CStellRenderer.EndFrame();
 			}
@@ -38,32 +45,73 @@ namespace CStell
 		vkDeviceWaitIdle(m_CStellDevice.device());
 	}
 
+	// temporary helper function, creates a 1x1x1 cube centered at offset
+	std::unique_ptr<CStellModel> createCubeModel(CStellDevice& device, glm::vec3 offset) {
+		std::vector<CStellModel::m_Vertex> vertices{
+
+			// left face (white)
+			{{-.5f, -.5f, -.5f}, {.9f, .9f, .9f}},
+			{{-.5f, .5f, .5f}, {.9f, .9f, .9f}},
+			{{-.5f, -.5f, .5f}, {.9f, .9f, .9f}},
+			{{-.5f, -.5f, -.5f}, {.9f, .9f, .9f}},
+			{{-.5f, .5f, -.5f}, {.9f, .9f, .9f}},
+			{{-.5f, .5f, .5f}, {.9f, .9f, .9f}},
+
+			// right face (yellow)
+			{{.5f, -.5f, -.5f}, {.8f, .8f, .1f}},
+			{{.5f, .5f, .5f}, {.8f, .8f, .1f}},
+			{{.5f, -.5f, .5f}, {.8f, .8f, .1f}},
+			{{.5f, -.5f, -.5f}, {.8f, .8f, .1f}},
+			{{.5f, .5f, -.5f}, {.8f, .8f, .1f}},
+			{{.5f, .5f, .5f}, {.8f, .8f, .1f}},
+
+			// top face (orange, remember y axis points down)
+			{{-.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
+			{{.5f, -.5f, .5f}, {.9f, .6f, .1f}},
+			{{-.5f, -.5f, .5f}, {.9f, .6f, .1f}},
+			{{-.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
+			{{.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
+			{{.5f, -.5f, .5f}, {.9f, .6f, .1f}},
+
+			// bottom face (red)
+			{{-.5f, .5f, -.5f}, {.8f, .1f, .1f}},
+			{{.5f, .5f, .5f}, {.8f, .1f, .1f}},
+			{{-.5f, .5f, .5f}, {.8f, .1f, .1f}},
+			{{-.5f, .5f, -.5f}, {.8f, .1f, .1f}},
+			{{.5f, .5f, -.5f}, {.8f, .1f, .1f}},
+			{{.5f, .5f, .5f}, {.8f, .1f, .1f}},
+
+			// nose face (blue)
+			{{-.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
+			{{.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
+			{{-.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
+			{{-.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
+			{{.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
+			{{.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
+
+			// tail face (green)
+			{{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
+			{{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
+			{{-.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
+			{{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
+			{{.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
+			{{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
+
+		};
+		for (auto& v : vertices) {
+			v.m_Position += offset;
+		}
+		return std::make_unique<CStellModel>(device, vertices);
+	}
+
 	void CStellApplication::LoadGameObjects()
 	{
-		//std::vector<CStellModel::m_Vertex> vertices{ {{0.0f, -0.5}}, {{0.5f, 0.5f}}, {{-0.5f, 0.5f}} };
-		std::vector<CStellModel::m_Vertex> vertices{
-			{{  0.0f, -0.5f }, {1.0f, 0.0f, 0.0f}},
-			{{  0.5f,  0.5f }, {0.0f, 1.0f, 0.0f}},
-			{{ -0.5f,  0.5f }, {0.0f, 0.0f, 1.0f}} };
-		auto lCStellModel = std::make_shared<CStellModel>(m_CStellDevice, vertices);
+		std::shared_ptr<CStellModel> lCStellModel = createCubeModel(m_CStellDevice, { 0.0f, 0.0f, 0.0f });
 
-		std::vector<glm::vec3> colors{
-	  {1.f, .7f, .73f},
-	  {1.f, .87f, .73f},
-	  {1.f, 1.f, .73f},
-	  {.73f, 1.f, .8f},
-	  {.73, .88f, 1.f}  //
-	};
-		for (auto& color : colors) {
-			color = glm::pow(color, glm::vec3{ 2.2f });
-		}
-		for (int i = 0; i < 40; i++) {
-			auto triangle = CStellGameObject::CreateGameObject();
-			triangle.model = lCStellModel;
-			triangle.transform2D.scale = glm::vec2(.5f) + i * 0.025f;
-			triangle.transform2D.rotation = i * glm::pi<float>() * .025f;
-			triangle.color = colors[i % colors.size()];
-			m_GameObjects.push_back(std::move(triangle));
-		}
+		auto cube = CStellGameObject::CreateGameObject();
+		cube.model = lCStellModel;
+		cube.transform.translation = { 0.0f, 0.0f, 2.5f };
+		cube.transform.scale = { 0.5f, 0.5f, 0.5f };
+		m_GameObjects.push_back(std::move(cube));
 	}
 }

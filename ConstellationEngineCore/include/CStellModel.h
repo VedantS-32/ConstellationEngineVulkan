@@ -13,7 +13,7 @@ namespace CStell
 	public:
 		struct m_Vertex
 		{
-			glm::vec2 m_Position;
+			glm::vec3 m_Position;
 			glm::vec3 m_Color;
 
 			static std::vector<VkVertexInputBindingDescription> m_GetBindingDescriptions();

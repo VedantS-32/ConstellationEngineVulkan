@@ -13,8 +13,7 @@ namespace CStell
 {
 	struct SimplePushConstantData
 	{
-		glm::mat2 transform{ 1.0f };
-		glm::vec2 offset;
+		glm::mat4 transform{ 1.0f };
 		alignas(16) glm::vec3 color;
 	};
 
@@ -64,23 +63,29 @@ namespace CStell
 		);
 	}
 
-	void CStellRenderSystem::RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<CStellGameObject>& gameObjects)
+	void CStellRenderSystem::RenderGameObjects(
+		VkCommandBuffer commandBuffer,
+		std::vector<CStellGameObject>& gameObjects,
+		const CStellCamera& camera)
 	{
 		int i = 0;
 		for (auto& obj : gameObjects)
 		{
 			i += 1;
-			obj.transform2D.rotation =
-				glm::mod<float>(obj.transform2D.rotation + 0.0001f * i, 2.f * glm::pi<float>());
+			obj.transform.rotation.y =
+				glm::mod<float>(obj.transform.rotation.y + 0.001f * i, 2.f * glm::pi<float>());
+			obj.transform.rotation.x =
+				glm::mod<float>(obj.transform.rotation.x + 0.0005f * i, 2.f * glm::pi<float>());
+			obj.transform.rotation.z =
+				glm::mod<float>(obj.transform.rotation.z + 0.0005f * i, 2.f * glm::pi<float>());
 		}
 
 		m_CStellShaderPipeline->bind(commandBuffer);
 		for (auto& obj : gameObjects)
 		{
 			SimplePushConstantData push{};
-			push.offset = obj.transform2D.translation;
 			push.color = obj.color;
-			push.transform = obj.transform2D.mat2();
+			push.transform = camera.getProjection() * obj.transform.mat4();
 
 			vkCmdPushConstants(
 				commandBuffer,

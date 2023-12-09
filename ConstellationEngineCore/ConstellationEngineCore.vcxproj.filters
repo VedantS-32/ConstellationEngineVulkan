@@ -21,6 +21,12 @@
     <ClInclude Include="include\CStellModel.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CStellRenderSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CStellRenderer.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\CStellShaderPipeline.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -33,8 +39,7 @@
     <ClInclude Include="include\Minimal.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\CStellRenderer.h" />
-    <ClInclude Include="include\CStellRenderSystem.h" />
+    <ClInclude Include="include\CStellCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStellApplication.cpp">
@@ -49,6 +54,12 @@
     <ClCompile Include="src\CStellModel.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStellRenderSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStellRenderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\CStellShaderPipeline.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -61,7 +72,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStellRenderer.cpp" />
-    <ClCompile Include="src\CStellRenderSystem.cpp" />
+    <ClCompile Include="src\CStellCamera.cpp" />
   </ItemGroup>
 </Project>
