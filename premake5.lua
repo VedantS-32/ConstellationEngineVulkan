@@ -73,6 +73,7 @@ project "ConstellationEngineCore"
 		-- "%{Library.VulkanUtils}",
 		"vulkan-1.lib",
 		"glfw.lib"
+		--"gdi32"
 		-- "yaml-cpp",
 		-- "ImGui",
 		-- "ImGuiFileDialog"
