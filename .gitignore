@@ -401,9 +401,12 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-#Binary Files
+# Binary Files
 bin/
 bin-int/
 
-#Solution File
+# Resource Files
+ConstellationEngineCore/model/
+
+# Solution File
 *.sln

@@ -54,7 +54,8 @@ project "ConstellationEngineCore"
 		"ConstellationEngineCore/include",
 		"%{VULKAN_SDK}/Include",
 		"ConstellationEngineCore/vendor/glfw/include",
-		"ConstellationEngineCore/vendor/glm"
+		"ConstellationEngineCore/vendor/glm",
+		"ConstellationEngineCore/vendor/tinyobjloader"
 		-- "vendor/imgui",
 		-- "vendor/imgui/misc/cpp",
 		-- "vendor/ImGuiFileDialog",

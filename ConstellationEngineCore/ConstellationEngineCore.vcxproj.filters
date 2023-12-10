@@ -45,6 +45,7 @@
     <ClInclude Include="include\Minimal.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CStellUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStellApplication.cpp">

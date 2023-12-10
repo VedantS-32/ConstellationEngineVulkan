@@ -4,3 +4,6 @@
 [submodule "ConstellationEngineCore/vendor/glm"]
 	path = ConstellationEngineCore/vendor/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "ConstellationEngineCore/vendor/tinyobjloader"]
+	path = ConstellationEngineCore/vendor/tinyobjloader
+	url = https://github.com/VedantS-32/tinyobjloader.git
