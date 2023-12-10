@@ -8,28 +8,28 @@ namespace CStell
 	{
 		InitWindow();
 	}
-	CStellWindow::CStellWindow(int width, int height, std::string windowName) : m_Width(width), m_Height(height), m_WindowName(windowName)
+	CStellWindow::CStellWindow(int width, int height, std::string windowName) : m_width(width), m_height(height), m_windowName(windowName)
 	{
 		InitWindow();
 	}
 
 	CStellWindow::~CStellWindow()
 	{
-		glfwDestroyWindow(m_Window);
+		glfwDestroyWindow(m_window);
 		glfwTerminate();
 	}
 
-	bool CStellWindow::ShouldClose()
+	bool CStellWindow::shouldClose()
 	{
-		return glfwWindowShouldClose(m_Window);
+		return glfwWindowshouldClose(m_window);
 	}
 
 	void CStellWindow::FrameBufferResizeCallback(GLFWwindow* window, int width, int height)
 	{
 		auto lCStellWindow = reinterpret_cast<CStellWindow*>(glfwGetWindowUserPointer(window));
-		lCStellWindow->m_FrameBufferResized = true;
-		lCStellWindow->m_Width = width;
-		lCStellWindow->m_Height = height;
+		lCStellWindow->m_frameBufferResized = true;
+		lCStellWindow->m_width = width;
+		lCStellWindow->m_height = height;
 	}
 
 	void CStellWindow::InitWindow()
@@ -38,14 +38,14 @@ namespace CStell
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-		m_Window = glfwCreateWindow(m_Width, m_Height, m_WindowName.c_str(), nullptr, nullptr);
-		glfwSetWindowUserPointer(m_Window, this);
-		glfwSetFramebufferSizeCallback(m_Window, FrameBufferResizeCallback);
+		m_window = glfwCreateWindow(m_width, m_height, m_windowName.c_str(), nullptr, nullptr);
+		glfwSetWindowUserPointer(m_window, this);
+		glfwSetFramebufferSizeCallback(m_window, FrameBufferResizeCallback);
 
 	}
 	void CStellWindow::CreateWindowSurface(VkInstance instance, VkSurfaceKHR* surface)
 	{
-		if (glfwCreateWindowSurface(instance, m_Window, nullptr, surface) != VK_SUCCESS)
+		if (glfwCreateWindowSurface(instance, m_window, nullptr, surface) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create window surface");
 		}

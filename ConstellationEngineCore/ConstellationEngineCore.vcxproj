@@ -95,10 +95,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\CStellCamera.h" />
     <ClInclude Include="include\CStellApplication.h" />
+    <ClInclude Include="include\CStellCamera.h" />
     <ClInclude Include="include\CStellDevice.h" />
     <ClInclude Include="include\CStellGameObject.h" />
+    <ClInclude Include="include\CStellInput.h" />
     <ClInclude Include="include\CStellModel.h" />
     <ClInclude Include="include\CStellRenderSystem.h" />
     <ClInclude Include="include\CStellRenderer.h" />
@@ -108,10 +109,10 @@
     <ClInclude Include="include\Minimal.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CStellCamera.cpp" />
     <ClCompile Include="src\CStellApplication.cpp" />
+    <ClCompile Include="src\CStellCamera.cpp" />
     <ClCompile Include="src\CStellDevice.cpp" />
-    <ClCompile Include="src\CStellGameObject.cpp" />
+    <ClCompile Include="src\CStellInput.cpp" />
     <ClCompile Include="src\CStellModel.cpp" />
     <ClCompile Include="src\CStellRenderSystem.cpp" />
     <ClCompile Include="src\CStellRenderer.cpp" />

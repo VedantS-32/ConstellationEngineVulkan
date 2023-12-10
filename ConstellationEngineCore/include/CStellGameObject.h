@@ -52,7 +52,7 @@ namespace CStell
 	public:
 		using id_t = unsigned int;
 
-		static CStellGameObject CreateGameObject()
+		static CStellGameObject createGameObject()
 		{
 			static id_t CurrentID = 0;
 			return CStellGameObject(CurrentID++);

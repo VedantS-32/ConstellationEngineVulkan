@@ -20,18 +20,18 @@ namespace CStell
 		CStellRenderSystem(const CStellRenderSystem&) = delete;
 		CStellRenderSystem& operator=(const CStellRenderSystem&) = delete;
 
-		void RenderGameObjects(
+		void renderGameObjects(
 			VkCommandBuffer commandBuffer,
 			std::vector<CStellGameObject> &gameObjects,
 			const CStellCamera& camera);
 
 	private:
-		void CreatePipelineLayout();
-		void CreatePipeline(VkRenderPass renderPass);
+		void createPipelineLayout();
+		void createPipeline(VkRenderPass renderPass);
 
 		CStellDevice& m_CStellDevice;
 
 		std::unique_ptr<CStellShaderPipeline> m_CStellShaderPipeline;
-		VkPipelineLayout m_PipelineLayout;
+		VkPipelineLayout m_pipelineLayout;
 	};
 }

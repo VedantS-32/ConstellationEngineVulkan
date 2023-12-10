@@ -8,7 +8,7 @@ int main()
     CStell::CStellApplication Instance0;
 
     try {
-        Instance0.Run();
+        Instance0.run();
     }
     catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

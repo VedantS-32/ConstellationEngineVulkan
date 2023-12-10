@@ -10,18 +10,18 @@ namespace CStell
 {
 	struct PipelineConfigInfo 
 	{
-		VkPipelineViewportStateCreateInfo m_ViewportInfo;
-		VkPipelineInputAssemblyStateCreateInfo m_InputAssemblyInfo;
-		VkPipelineRasterizationStateCreateInfo m_RasterizationInfo;
-		VkPipelineMultisampleStateCreateInfo m_MultisampleInfo;
-		VkPipelineColorBlendAttachmentState m_ColorBlendAttachment;
-		VkPipelineColorBlendStateCreateInfo m_ColorBlendInfo;
-		VkPipelineDepthStencilStateCreateInfo m_DepthStencilInfo;
-		std::vector<VkDynamicState> m_DynamicStateEnables;
-		VkPipelineDynamicStateCreateInfo m_DynamicStateInfo; 
-		VkPipelineLayout m_PipelineLayout = nullptr;
-		VkRenderPass m_RenderPass = nullptr;
-		uint32_t m_Subpass = 0;
+		VkPipelineViewportStateCreateInfo m_viewportInfo;
+		VkPipelineInputAssemblyStateCreateInfo m_inputAssemblyInfo;
+		VkPipelineRasterizationStateCreateInfo m_rasterizationInfo;
+		VkPipelineMultisampleStateCreateInfo m_multisampleInfo;
+		VkPipelineColorBlendAttachmentState m_colorBlendAttachment;
+		VkPipelineColorBlendStateCreateInfo m_colorBlendInfo;
+		VkPipelineDepthStencilStateCreateInfo m_depthStencilInfo;
+		std::vector<VkDynamicState> m_dynamicStateEnables;
+		VkPipelineDynamicStateCreateInfo m_dynamicStateInfo; 
+		VkPipelineLayout m_pipelineLayout = nullptr;
+		VkRenderPass m_renderPass = nullptr;
+		uint32_t m_subpass = 0;
 	};
 
 	class CStellShaderPipeline
@@ -40,21 +40,21 @@ namespace CStell
 		CStellShaderPipeline& operator=(const CStellShaderPipeline&) = delete;
 
 		void bind(VkCommandBuffer commandBuffer);
-		static void m_DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
+		static void defaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
 		
 	private:
-		static std::vector<char> ReadFile(const std::string& filePath);
+		static std::vector<char> readFile(const std::string& filePath);
 
-		void CreateGraphicsPipeline(
+		void createGraphicsPipeline(
 			const PipelineConfigInfo& configInfo,
 			const std::string vertFilePath,
 			const std::string fragFilePath);
 
-		void CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
+		void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 
 		CStellDevice& m_CStellDevice;
-		VkPipeline m_GraphicsPipeline;
-		VkShaderModule m_VertShaderModule;
-		VkShaderModule m_FragShaderModule;
+		VkPipeline m_graphicsPipeline;
+		VkShaderModule m_vertShaderModule;
+		VkShaderModule m_fragShaderModule;
 	};
 }

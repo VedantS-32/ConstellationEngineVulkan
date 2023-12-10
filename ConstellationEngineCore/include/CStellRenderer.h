@@ -20,39 +20,39 @@ namespace CStell
 		CStellRenderer(const CStellRenderer&) = delete;
 		CStellRenderer& operator=(const CStellRenderer&) = delete;
 
-		VkRenderPass GetSwapChainRenderPass() const { return m_CStellSwapChain->getRenderPass(); }
+		VkRenderPass getSwapChainRenderPass() const { return m_CStellSwapChain->getRenderPass(); }
 		float getAspectRatio() const { return m_CStellSwapChain->extentAspectRatio(); }
-		bool isFrameInProgress() const { return m_IsFrameStarted; }
+		bool isFrameInProgress() const { return m_isFrameStarted; }
 
-		VkCommandBuffer GetCurrentCommandBuffer() const
+		VkCommandBuffer getCurrentCommandBuffer() const
 		{
-			assert(m_IsFrameStarted && "Cannot get command buffer when frame not in progress");
-			return m_CommandBuffers[m_CurrentFrameIndex];
+			assert(m_isFrameStarted && "Cannot get command buffer when frame not in progress");
+			return m_commandBuffers[m_currentFrameIndex];
 		}
 
 		int GetFrameIndex() const
 		{
-			assert(m_IsFrameStarted && "Cannot get frame index when frame not in progress");
-			return m_CurrentFrameIndex;
+			assert(m_isFrameStarted && "Cannot get frame index when frame not in progress");
+			return m_currentFrameIndex;
 		}
 
-		VkCommandBuffer BeginFrame();
-		void EndFrame();
-		void BeginSwapChainRenderPass(VkCommandBuffer commandBuffer);
-		void EndSwapChainRenderPass(VkCommandBuffer commandBuffer);
+		VkCommandBuffer beginFrame();
+		void endFrame();
+		void beginSwapChainRenderPass(VkCommandBuffer commandBuffer);
+		void endSwapChainRenderPass(VkCommandBuffer commandBuffer);
 
 	private:
-		void CreateCommandBuffer();
-		void FreeCommandBuffers();
-		void RecreateSwapChain();
+		void createCommandBuffer();
+		void freeCommandBuffers();
+		void recreateSwapChain();
 
 		CStellWindow& m_CStellWindow;
 		CStellDevice& m_CStellDevice;
 		std::unique_ptr<CStellSwapChain> m_CStellSwapChain;
-		std::vector<VkCommandBuffer> m_CommandBuffers;
+		std::vector<VkCommandBuffer> m_commandBuffers;
 
-		uint32_t m_CurrentImageIndex;
-		int m_CurrentFrameIndex;
-		bool m_IsFrameStarted;
+		uint32_t m_currentImageIndex;
+		int m_currentFrameIndex;
+		bool m_isFrameStarted;
 	};
 }

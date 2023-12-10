@@ -21,18 +21,18 @@ namespace CStell
 		CStellApplication(const CStellApplication&) = delete;
 		CStellApplication& operator=(const CStellApplication&) = delete;
 
-		static constexpr int m_Width = 800;
-		static constexpr int m_Height = 600;
+		static constexpr int m_width = 800;
+		static constexpr int m_height = 600;
 
-		void Run();
+		void run();
 
 	private:
-		void LoadGameObjects();
+		void loadGameObjects();
 
-		CStellWindow m_CStellWindow{m_Width, m_Height, "Constellation Engine"};
+		CStellWindow m_CStellWindow{m_width, m_height, "Constellation Engine"};
 		CStellDevice m_CStellDevice{m_CStellWindow};
 		CStellRenderer m_CStellRenderer{m_CStellWindow, m_CStellDevice};
 
-		std::vector<CStellGameObject> m_GameObjects;
+		std::vector<CStellGameObject> m_gameObjects;
 	};
 }

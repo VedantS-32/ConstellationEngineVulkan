@@ -12,10 +12,16 @@
     <ClInclude Include="include\CStellApplication.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CStellCamera.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\CStellDevice.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\CStellGameObject.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CStellInput.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\CStellModel.h">
@@ -39,16 +45,18 @@
     <ClInclude Include="include\Minimal.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\CStellCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStellApplication.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStellCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\CStellDevice.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStellGameObject.cpp">
+    <ClCompile Include="src\CStellInput.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\CStellModel.cpp">
@@ -72,6 +80,5 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStellCamera.cpp" />
   </ItemGroup>
 </Project>

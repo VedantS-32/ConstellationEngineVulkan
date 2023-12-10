@@ -40,7 +40,7 @@ class CStellSwapChain {
   VkResult acquireNextImage(uint32_t *imageIndex);
   VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
 
-  bool CompareSwapFormat(const CStellSwapChain& swapChain) const
+  bool compareSwapFormat(const CStellSwapChain& swapChain) const
   {
       return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
              swapChain.swapChainImageFormat == swapChainImageFormat;

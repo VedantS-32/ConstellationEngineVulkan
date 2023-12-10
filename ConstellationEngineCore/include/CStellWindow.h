@@ -16,24 +16,24 @@ namespace CStell
 		CStellWindow(const CStellWindow&) = delete;
 		CStellWindow& operator=(const CStellWindow&) = delete;
 
-		bool ShouldClose();
-		VkExtent2D getExtent() { return { static_cast<uint32_t>(m_Width), static_cast<uint32_t>(m_Height) }; }
-		bool WasWindowResized() { return m_FrameBufferResized; }
-		void ResetWindowResizedFlag() { m_FrameBufferResized = false; }
+		bool shouldClose();
+		VkExtent2D getExtent() { return { static_cast<uint32_t>(m_width), static_cast<uint32_t>(m_height) }; }
+		bool WasWindowResized() { return m_frameBufferResized; }
+		void ResetWindowResizedFlag() { m_frameBufferResized = false; }
+		GLFWwindow* getGLFWwindow() const { return m_window; }
 
 		void CreateWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
-
 	private:
 		static void FrameBufferResizeCallback(GLFWwindow* window, int width, int height);
 		void InitWindow();
 
-		int m_Width;
-		int m_Height;
-		bool m_FrameBufferResized = false;
+		int m_width;
+		int m_height;
+		bool m_frameBufferResized = false;
 
-		std::string m_WindowName = "DefaultName";
+		std::string m_windowName = "DefaultName";
 		
-		GLFWwindow* m_Window;
+		GLFWwindow* m_window;
 	};
 
 }

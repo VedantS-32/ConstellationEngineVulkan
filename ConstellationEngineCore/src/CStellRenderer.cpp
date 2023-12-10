@@ -9,23 +9,23 @@ namespace CStell
 	CStellRenderer::CStellRenderer(CStellWindow& window, CStellDevice& device) :
 		m_CStellWindow(window),
 		m_CStellDevice(device),
-		m_IsFrameStarted(false),
-		m_CurrentFrameIndex(0)
+		m_isFrameStarted(false),
+		m_currentFrameIndex(0)
 	{
-		RecreateSwapChain();
-		CreateCommandBuffer();
+		recreateSwapChain();
+		createCommandBuffer();
 	}
-	CStellRenderer::~CStellRenderer() { FreeCommandBuffers(); }	
+	CStellRenderer::~CStellRenderer() { freeCommandBuffers(); }	
 
-	VkCommandBuffer CStellRenderer::BeginFrame()
+	VkCommandBuffer CStellRenderer::beginFrame()
 	{
-		assert(!m_IsFrameStarted && "Can't call beginFrame while already in progress");
+		assert(!m_isFrameStarted && "Can't call beginFrame while already in progress");
 
-		auto result = m_CStellSwapChain->acquireNextImage(&m_CurrentImageIndex);
+		auto result = m_CStellSwapChain->acquireNextImage(&m_currentImageIndex);
 
 		if (result == VK_ERROR_OUT_OF_DATE_KHR)
 		{
-			RecreateSwapChain();
+			recreateSwapChain();
 			return nullptr;
 		}
 
@@ -33,9 +33,9 @@ namespace CStell
 			throw std::runtime_error("Failed to acquire swap chain image!");
 		}
 
-		m_IsFrameStarted = true;
+		m_isFrameStarted = true;
 
-		auto commandBuffer = GetCurrentCommandBuffer();
+		auto commandBuffer = getCurrentCommandBuffer();
 		VkCommandBufferBeginInfo beginInfo{};
 		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -46,42 +46,42 @@ namespace CStell
 		return commandBuffer;
 	}
 
-	void CStellRenderer::EndFrame()
+	void CStellRenderer::endFrame()
 	{
-		assert(m_IsFrameStarted && "Can't call endFrame while is not in progress");
+		assert(m_isFrameStarted && "Can't call endFrame while is not in progress");
 
-		auto commandBuffer = GetCurrentCommandBuffer();
+		auto commandBuffer = getCurrentCommandBuffer();
 		if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
 			throw std::runtime_error("Failed to record command buffer!");
 		}
 
-		auto result = m_CStellSwapChain->submitCommandBuffers(&commandBuffer, &m_CurrentImageIndex);
+		auto result = m_CStellSwapChain->submitCommandBuffers(&commandBuffer, &m_currentImageIndex);
 		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR ||
 			m_CStellWindow.WasWindowResized())
 		{
 			m_CStellWindow.ResetWindowResizedFlag();
-			RecreateSwapChain();
+			recreateSwapChain();
 		}
 
 		else if (result != VK_SUCCESS) {
 			throw std::runtime_error("Failed to present swap chain image!");
 		}
 
-		m_IsFrameStarted = false;
-		m_CurrentFrameIndex = (m_CurrentFrameIndex + 1) % CStellSwapChain::MAX_FRAMES_IN_FLIGHT;
+		m_isFrameStarted = false;
+		m_currentFrameIndex = (m_currentFrameIndex + 1) % CStellSwapChain::MAX_FRAMES_IN_FLIGHT;
 	}
 
-	void CStellRenderer::BeginSwapChainRenderPass(VkCommandBuffer commandBuffer)
+	void CStellRenderer::beginSwapChainRenderPass(VkCommandBuffer commandBuffer)
 	{
-		assert(m_IsFrameStarted && "Can't call beginSwapChain if frame is not in progress");
-		assert(commandBuffer == GetCurrentCommandBuffer() && 
+		assert(m_isFrameStarted && "Can't call beginSwapChain if frame is not in progress");
+		assert(commandBuffer == getCurrentCommandBuffer() && 
 			"Can't begin render pass on command buffer from a different frame");
 
 
 		VkRenderPassBeginInfo renderPassInfo{};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderPassInfo.renderPass = m_CStellSwapChain->getRenderPass();
-		renderPassInfo.framebuffer = m_CStellSwapChain->getFrameBuffer(m_CurrentImageIndex);
+		renderPassInfo.framebuffer = m_CStellSwapChain->getFrameBuffer(m_currentImageIndex);
 
 		renderPassInfo.renderArea.offset = { 0, 0 };
 		renderPassInfo.renderArea.extent = m_CStellSwapChain->getSwapChainExtent();
@@ -106,42 +106,42 @@ namespace CStell
 		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 	}
 
-	void CStellRenderer::EndSwapChainRenderPass(VkCommandBuffer commandBuffer)
+	void CStellRenderer::endSwapChainRenderPass(VkCommandBuffer commandBuffer)
 	{
-		assert(m_IsFrameStarted && "Can't call endSwapChain if frame is not in progress");
-		assert(commandBuffer == GetCurrentCommandBuffer() &&
+		assert(m_isFrameStarted && "Can't call endSwapChain if frame is not in progress");
+		assert(commandBuffer == getCurrentCommandBuffer() &&
 			"Can't end render pass on command buffer from a different frame");
 
 		vkCmdEndRenderPass(commandBuffer);
 	}
 
-	void CStellRenderer::CreateCommandBuffer()
+	void CStellRenderer::createCommandBuffer()
 	{
-		m_CommandBuffers.resize(CStellSwapChain::MAX_FRAMES_IN_FLIGHT);
+		m_commandBuffers.resize(CStellSwapChain::MAX_FRAMES_IN_FLIGHT);
 
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandPool = m_CStellDevice.getCommandPool();
-		allocInfo.commandBufferCount = static_cast<uint32_t>(m_CommandBuffers.size());
+		allocInfo.commandBufferCount = static_cast<uint32_t>(m_commandBuffers.size());
 
-		if (vkAllocateCommandBuffers(m_CStellDevice.device(), &allocInfo, m_CommandBuffers.data()) !=
+		if (vkAllocateCommandBuffers(m_CStellDevice.device(), &allocInfo, m_commandBuffers.data()) !=
 			VK_SUCCESS) {
 			throw std::runtime_error("failed to allocate command buffers!");
 		}
 	}
 
-	void CStellRenderer::FreeCommandBuffers()
+	void CStellRenderer::freeCommandBuffers()
 	{
 		vkFreeCommandBuffers(
 			m_CStellDevice.device(),
 			m_CStellDevice.getCommandPool(),
-			static_cast<uint32_t>(m_CommandBuffers.size()),
-			m_CommandBuffers.data());
-		m_CommandBuffers.clear();
+			static_cast<uint32_t>(m_commandBuffers.size()),
+			m_commandBuffers.data());
+		m_commandBuffers.clear();
 	}
 
-	void CStellRenderer::RecreateSwapChain()
+	void CStellRenderer::recreateSwapChain()
 	{
 		auto extent = m_CStellWindow.getExtent();
 		while (extent.width == 0 || extent.height == 0)
@@ -161,7 +161,7 @@ namespace CStell
 			std::shared_ptr<CStellSwapChain> oldSwapChain = std::move(m_CStellSwapChain);
 			m_CStellSwapChain = std::make_unique<CStellSwapChain>(m_CStellDevice, extent, oldSwapChain);
 
-			if (!oldSwapChain->CompareSwapFormat(*m_CStellSwapChain.get()))
+			if (!oldSwapChain->compareSwapFormat(*m_CStellSwapChain.get()))
 			{
 				throw std::runtime_error("Swap chain image(or depth) format has changed!");
 			}
