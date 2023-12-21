@@ -57,9 +57,9 @@ namespace CStell
 
 		auto result = m_CStellSwapChain->submitCommandBuffers(&commandBuffer, &m_currentImageIndex);
 		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR ||
-			m_CStellWindow.WasWindowResized())
+			m_CStellWindow.wasWindowResized())
 		{
-			m_CStellWindow.ResetWindowResizedFlag();
+			m_CStellWindow.resetWindowResizedFlag();
 			recreateSwapChain();
 		}
 

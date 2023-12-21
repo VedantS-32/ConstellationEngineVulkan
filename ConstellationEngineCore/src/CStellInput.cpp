@@ -1,19 +1,23 @@
 #include "CStellInput.h"
 
+#include<glm/gtx/rotate_vector.hpp>
+#include<glm/gtx/vector_angle.hpp>
+
 namespace CStell
 {
-	void CStellInput::moveInPlaneXZ(GLFWwindow* window, float dt, CStellGameObject& gameObject)
+	void CStellInput::moveInPlaneXZ(CStellWindow& cstellWindow, float dt, CStellGameObject& gameObject)
 	{
+		auto window = cstellWindow.getGLFWwindow();
+		auto width = cstellWindow.getWindowDimensions().x;
+		auto height = cstellWindow.getWindowDimensions().y;
 		glm::vec3 rotate{ 0 };
 		if (glfwGetKey(window, m_keys.lookRight) == GLFW_PRESS) rotate.y += 1.0f;
 		if (glfwGetKey(window, m_keys.lookLeft) == GLFW_PRESS) rotate.y -= 1.0f;
 		if (glfwGetKey(window, m_keys.lookUp) == GLFW_PRESS) rotate.x += 1.0f;
 		if (glfwGetKey(window, m_keys.lookDown) == GLFW_PRESS) rotate.x -= 1.0f;
+		if (glfwGetKey(window, m_keys.rollClockwise) == GLFW_PRESS) rotate.z += 1.0f;
+		if (glfwGetKey(window, m_keys.rollAntiClockwise) == GLFW_PRESS) rotate.z -= 1.0f;
 
-		if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon())
-		{
-			gameObject.transform.rotation += m_lookSpeed * dt * glm::normalize(rotate);
-		}
 
 		// Limit pitch values between about +/- 85ish degrees
 		gameObject.transform.rotation.x = glm::clamp(gameObject.transform.rotation.x, -1.5f, 1.5f);
@@ -35,6 +39,22 @@ namespace CStell
 		if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon())
 		{
 			gameObject.transform.translation += m_moveSpeed * dt * glm::normalize(moveDir);
+		}
+
+		if (glfwGetMouseButton(window, m_keys.leftClick) == GLFW_PRESS)
+		{
+			//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			//glfwSetCursorPos(window, (width / 2), (height / 2));
+		}
+
+		else if (glfwGetMouseButton(window, m_keys.leftClick) == GLFW_RELEASE)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+
+		if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon())
+		{
+			gameObject.transform.rotation += m_lookSpeed * dt * glm::normalize(rotate);
 		}
 
 	}

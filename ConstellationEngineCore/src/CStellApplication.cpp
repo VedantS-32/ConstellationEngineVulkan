@@ -43,11 +43,11 @@ namespace CStell
 
 			//frameTime = glm::min(frameTime, MAX_FRAME_TIME);
 
-			cameraController.moveInPlaneXZ(m_CStellWindow.getGLFWwindow(), frameTime, viewerObject);
+			cameraController.moveInPlaneXZ(m_CStellWindow, frameTime, viewerObject);
 			camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 
 			float aspect = m_CStellRenderer.getAspectRatio();
-			camera.setPerspectiveProjection(glm::radians(50.0f), aspect, 0.01f, 10.0f);
+			camera.setPerspectiveProjection(glm::radians(50.0f), aspect, 0.01f, 100.0f);
 			
 			if (auto commandBuffer = m_CStellRenderer.beginFrame())
 			{
@@ -56,6 +56,12 @@ namespace CStell
 				m_CStellRenderer.endSwapChainRenderPass(commandBuffer);
 				m_CStellRenderer.endFrame();
 			}
+
+			//double px, py;
+			//double xpos, ypos;
+			//glfwGetCursorPos(m_CStellWindow.getGLFWwindow(), &xpos, &ypos);
+			//px = xpos;
+			//py = ypos;
 		}
 
 		vkDeviceWaitIdle(m_CStellDevice.device());
@@ -63,12 +69,12 @@ namespace CStell
 
 	void CStellApplication::loadGameObjects()
 	{
-		std::shared_ptr<CStellModel> lCStellModel  = CStellModel::createModelFromFile(m_CStellDevice, "model/smooth_vase.obj");
+		std::shared_ptr<CStellModel> lCStellModel  = CStellModel::createModelFromFile(m_CStellDevice, "model/flat_vase.obj");
 
 		auto gmaeObj = CStellGameObject::createGameObject();
 		gmaeObj.model = lCStellModel;
-		gmaeObj.transform.translation = { 0.0f, 0.0f, 2.5f };
-		gmaeObj.transform.scale = glm::vec3(3.0f);
+		gmaeObj.transform.translation = { 0.0f, 0.0f, 10.0f };
+		gmaeObj.transform.scale = glm::vec3(1.0f);
 		m_gameObjects.push_back(std::move(gmaeObj));
 	}
 }

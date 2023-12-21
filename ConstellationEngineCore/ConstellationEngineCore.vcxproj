@@ -113,6 +113,7 @@
     <ClCompile Include="src\CStellApplication.cpp" />
     <ClCompile Include="src\CStellCamera.cpp" />
     <ClCompile Include="src\CStellDevice.cpp" />
+    <ClCompile Include="src\CStellGameObject.cpp" />
     <ClCompile Include="src\CStellInput.cpp" />
     <ClCompile Include="src\CStellModel.cpp" />
     <ClCompile Include="src\CStellRenderSystem.cpp" />

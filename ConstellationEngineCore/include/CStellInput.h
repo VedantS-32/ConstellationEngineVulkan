@@ -20,9 +20,14 @@ namespace CStell
             int lookRight = GLFW_KEY_RIGHT;
             int lookUp = GLFW_KEY_UP;
             int lookDown = GLFW_KEY_DOWN;
+            int leftClick = GLFW_MOUSE_BUTTON_LEFT;
+            int rightClick = GLFW_MOUSE_BUTTON_RIGHT;
+            //int scrollUp = GLFW_MOUSE_BUTTON_MIDDLE;
+            int rollClockwise = GLFW_KEY_1;
+            int rollAntiClockwise = GLFW_KEY_2;
 		};
 
-        void moveInPlaneXZ(GLFWwindow* window, float dt, CStellGameObject& gameObject);
+        void moveInPlaneXZ(CStellWindow& cstellWindow, float dt, CStellGameObject& gameObject);
 
         KeyMappings m_keys{};
         float m_moveSpeed{ 3.0f };
